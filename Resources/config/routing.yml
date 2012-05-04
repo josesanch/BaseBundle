@@ -1,0 +1,28 @@
+web:
+  resource: "@WebBundle/Controller"
+  type:     annotation
+
+admin:
+  resource: "@AdminBundle/Controller"
+  type:     annotation
+  prefix : /admin
+
+
+_imagine:
+    resource: .
+    type:     imagine
+
+
+_assetic:
+  resource: .
+  type:     assetic
+
+slug_route:
+  pattern: /{slug}
+  defaults: { _controller: BaseBundle:Slug:find }
+  requirements:
+    slug : .*
+
+
+Other_routes:
+  resource: ../../app/config/routing.yml

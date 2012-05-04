@@ -1,0 +1,68 @@
+framework:
+  form:            true
+  charset:         UTF-8
+  secret:  %secret%
+  templating: { engines: ['twig'] }
+  profiler: { only_exceptions: false }
+  router:   { resource: "@BaseBundle/Resources/config/routing.yml" }
+
+
+avalanche_imagine:
+  source_root:  %kernel.root_dir%/../htdocs
+  web_root:     %kernel.root_dir%/../htdocs
+
+
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+
+    orm:
+      auto_generate_proxy_classes: %kernel.debug%
+      auto_mapping: true
+
+
+# Assetic Configuration
+assetic:
+  debug:          %kernel.debug%
+  use_controller: true
+  # java: /usr/bin/java
+  filters:
+    yui_js:
+      jar: /usr/share/yui-compressor/yui-compressor.jar
+    yui_css:
+      jar: /usr/share/yui-compressor/yui-compressor.jar
+    less: ~
+
+
+
+security:
+  providers:
+    in_memory:
+      users:
+        user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+
+  role_hierarchy:
+    ROLE_ADMIN:       ROLE_USER
+    ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+  access_control:
+  firewalls:
+    admin:
+      pattern:  ^/administration/
+      form_login:
+        check_path: /administration/check
+        login_path: /administration/login
+      logout:
+          path:   /administration/logout
+          target: /
+
+
+
+# Twig Configuration
+twig:
+  debug:            %kernel.debug%
+  strict_variables: %kernel.debug%
